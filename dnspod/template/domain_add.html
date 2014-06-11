@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% block main %}
+<div>
+    <style>
+        #top_questionnaire_box{position:relative;height:80px;} #top_questionnaire_box
+        cite{ position:absolute; display:none; top:5px; right:5px; height:20px;
+        width:20px; line-height:20px; text-align:center; cursor:pointer; z-index:
+        1; } #top_questionnaire_box:hover cite{ display:block; } #top_questionnaire_box
+        span{ display: inline-block; position: absolute; top: 42px; width: 34px;
+        height: 34px; line-height: 34px; text-align: center; font-size: 1.8em;
+        color: black; }
+    </style>
+</div>
+<div class="domain-control">
+    <div class="header">
+        <h3>
+            全部域名
+            <span>
+                ( 2条 )
+                <span>
+                </span>
+            </span>
+        </h3>
+        <div class="flash-message">
+        </div>
+        <div style="clear:both">
+        </div>
+        <div class="action">
+            <div class="btn-toolbar">
+                <div class="btn-group">
+                    <a id="create-domain" class="btn success" href="/domain/add">
+                        添加域名
+                    </a>
+                </div>
+                <div class="btn-group">
+                    <a id="safe-center-switch" onclick="_hmt.push(['_trackEvent','safeCenter','click','openSafeCenter'])"
+                    class="btn" rel="popover" data-content="DNSPod联手安全宝，强强打造网站安全中心，为网站提供防黑客，抗攻击和加速等服务。"
+                    data-original-title="关于DNSPod网站安全中心" data-placement="above">
+                        添加到安全中心
+                    </a>
+                    <!-- <i class="icon-question-sign aqb-question" rel="popover" data-content="DNSPod联手安全宝，强强打造网站安全中心，为网站安全、防护、加速等方面提供服务。"
+                    data-original-title="关于DNSPod网站安全中心" data-placement="above"></i>
+                    -->
+                </div>
+                <div class="btn-group" id="domain-group">
+                    <a id="set-group" class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                        分组
+                        <span class="caret">
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu domain-group">
+                        <li class="item">
+                            <a href="#">
+                                <span>
+                                    移动到
+                                </span>
+                                经常修改
+                            </a>
+                        </li>
+                        <li class="item">
+                            <a href="#">
+                                <span>
+                                    移动到
+                                </span>
+                                很少修改
+                            </a>
+                        </li>
+                        <li class="item">
+                            <a href="#">
+                                <span>
+                                    移动到
+                                </span>
+                                即将到期
+                            </a>
+                        </li>
+                        <li class="item">
+                            <a href="#">
+                                <span>
+                                    移动到
+                                </span>
+                                私人域名
+                            </a>
+                        </li>
+                        <li class="item">
+                            <a href="#">
+                                <span>
+                                    移动到
+                                </span>
+                                公司域名
+                            </a>
+                        </li>
+                        <li class="item">
+                            <a href="#">
+                                <span>
+                                    移动到
+                                </span>
+                                客户域名
+                            </a>
+                        </li>
+                        <li class="divider">
+                        </li>
+                        <li id="create-group" class="new-item">
+                            <a href="#">
+                                新建分组
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- <div class="btn-group">
+                <a id='disable-domain' class="btn">暂停</a>
+                <a id='enable-domain' class="btn" >启用</a>
+                <a id='delete-domain' class="btn">删除</a>
+                </div>
+                -->
+                <div class="btn-group">
+                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                        更多
+                        <span class="caret">
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a id="disable-domain">
+                                暂停
+                            </a>
+                        </li>
+                        <li>
+                            <a id="enable-domain">
+                                启用
+                            </a>
+                        </li>
+                        <li>
+                            <a id="delete-domain">
+                                删除
+                            </a>
+                        </li>
+                        <!-- <li><a href='#'>批量修改</a></li>
+                        <li class='divider'></li>
+                        <li><a href='#'>快捷添加邮件配置</a></li>
+                        -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="main-content">
+    <div class="domain-header">
+        <input type="checkbox" value="none" class="selectAll">
+        <span>
+            添加域名
+        </span>
+    </div>
+    <form action="#" method="POST">
+        <table>
+            {{ form.as_table }}
+        </table>
+        <p><input type="submit" value="添加"></p>
+    </form>
+</div>
+{% endblock %}

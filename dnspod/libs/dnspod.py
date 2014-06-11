@@ -142,6 +142,7 @@ class DNSPodBase(object):
         if code == u'1':
             logging.info(message)
             response.pop(u'status')
+            logging.info(response)
             return response
 
         logging.error(message)
@@ -293,6 +294,29 @@ class Domain(DNSPodBase):
 
         return self.request(**data)
 
+    def lockstatus (self, domain = None, domain_id = None):
+        '''获取域名锁定状态
+
+        Args:
+            domain_id 或 domain，分别对应域名ID和域名，提交其中一个即可
+
+        Raises:
+            -15 域名已被封禁
+            -7 企业账号的域名需要升级才能设置
+            -8 代理名下用户的域名需要升级才能设置
+            6 域名ID错误
+            7 域名没有锁定
+        '''
+        if not domain_id and not domain:
+            logging.error(u'必须指定一个domain_id或domain, 二者不能都为空')
+            raise DNSPodError(u'必须指定一个domain_id或domain, 二者不能都为空')
+
+        url = self.base_url + '.Lockstatus'
+
+        data = locals().copy()
+        data.pop('self')
+
+        return self.request(**data)
 
 
 class Record(DNSPodBase):
@@ -305,7 +329,7 @@ class Record(DNSPodBase):
 
  
     #FIXME:校验record_type和record_line是否合法
-    def create(self, domain_id, record_type, value, record_line, mx = None, 
+    def create(self, domain_id, value, record_line, record_type=u'默认', mx = None, 
             ttl = 600, sub_domain = u'@'):
         '''添加记录.
         
@@ -340,7 +364,7 @@ class Record(DNSPodBase):
             82 不能添加黑名单中的IP
         '''
 
-        if not mx in range(1,21):
+        if mx and not mx in range(1,21):
             logging.error(u'mx out of range')
             raise DNSPodError(u'mx out of range')
         if not ttl in range(1,604801):
@@ -587,7 +611,6 @@ class DomainTest(unittest.TestCase):
         self.domain.info('btyh17mxy.com')
         
         
-
 if __name__ == '__main__':
     logging.info('test')
     unittest.main()

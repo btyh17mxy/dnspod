@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+{% block main %}
+<div class="RecordHeader" style="width: 770px;">
+    <div class="record-control">
+        <div class="header">
+            <div class="icon_home">
+            </div>
+            <h3>
+                {{ domain.name }}
+                <a href="/Service/Main#/domain/shanshangzx.com" class="domain-grade-icon DP_Free_icon"
+                data-placement="above" rel="twipsy" title="点击立即升级至 DNSPod VIP 套餐">
+                </a>
+            </h3>
+            <div class="flash-message">
+            </div>
+            <ul class="tabs">
+                <li class="">
+                    <a data-route="/settingline" href="">
+                        自定义线路
+                    </a>
+                </li>
+                <li class="">
+                    <a data-route="/statistics" href="">
+                        解析量统计
+                    </a>
+                </li>
+                <li class="">
+                    <a href="/domain/info/{{ domain.id }}">
+                        域名设置
+                    </a>
+                </li>
+                <li class="active">
+                    <a data-route="" href="">
+                        记录管理
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="record-control">
+        <div class="action">
+            <div class="btn-toolbar">
+                <div class="btn-group">
+                    <a id="create-record" class="btn success" href="/record/add/{{ domain.id }}">
+                        添加记录
+                    </a>
+                </div>
+            </div>
+            <div class="search-bar">
+                <input placeholder="快速查找记录" class="record_search" type="text">
+            </div>
+        </div>
+        <div class="record-header">
+            <table>
+                <thead>
+                    <tr>
+                        <th id="" width="10px;">
+                            <input class="selected-all" type="checkbox">
+                        </th>
+                        <th id="" width="140px;">
+                            <span data-key="sub_domain" data-order="asc" class="order_key">
+                                主机记录
+                            </span>
+                        </th>
+                        <th id="" width="65px;">
+                            <span data-key="record_type" data-order="asc" class="order_key">
+                                记录类型
+                            </span>
+                        </th>
+                        <th id="" width="100px;">
+                            <span data-key="record_line" data-order="asc" class="order_key">
+                                线路类型
+                            </span>
+                        </th>
+                        <th id="" width="155px;">
+                            <span data-key="value" data-order="asc" class="order_key">
+                                记录值
+                            </span>
+                        </th>
+                        <th id="" width="70px;">
+                            <span data-key="mx" data-order="asc" class="order_key">
+                                MX优先级
+                            </span>
+                        </th>
+                        <th id="" width="40px;">
+                            <span data-key="ttl" data-order="asc" class="order_key">
+                                TTL
+                            </span>
+                        </th>
+                        <th id="" width="95px;">
+                            <span class="">
+                                操作
+                            </span>
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="main-content">
+    <div id="record-list">
+
+      
+        {% for record in records %}
+        <div class="entry">
+            <div class="entry-header  hold">
+                <div class="entry-checkbox">
+                    <input class="record-checkbox" type="checkbox" value="65160299" name="check"
+                    disabled="">
+                </div>
+                <div class="entry-name field">
+                    <span>
+                        {{ record.name }}
+                    </span>
+                </div>
+                <div class="entry-type field">
+                    <span>
+                        {{ record.type }}
+                    </span>
+                </div>
+                <div class="entry-line field">
+                    <span>
+                        {{ record.line }}
+                    </span>
+                </div>
+                <div class="entry-value field">
+                    <span>
+                        {{ record.value }}
+                    </span>
+                </div>
+                <div class="entry-mx field">
+                    <span>
+                        -
+                    </span>
+                </div>
+                <div class="entry-ttl field">
+                    <span>
+                        {{ record.ttl }}
+                    </span>
+                </div>
+                <table class="entry-operation" cellpadding="0" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                            <th>
+                                <a href = "/record/remove/{{ domain.id }}/{{ record.id }}">
+                                    删除
+                                </a>
+                            </th>
+                            <th>
+                                <a class="handle">
+                                    暂停
+                                </a>
+                            </th>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="record-entry-status" cellpadding="0" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                            <th>
+                                <div data-placement="above" rel="twipsy" title="点击添加备注" class="icon_empty_note">
+                                </div>
+                            </th>
+                            <th>
+                                <div data-placement="above" rel="twipsy" title="系统默认添加，无需修改" class="icon_lock">
+                                </div>
+                            </th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

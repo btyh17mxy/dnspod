@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block main %}
+<div id="main-content">
+    <div class="domain-header">
+        <input type="checkbox" value="none" class="selectAll">
+        <span>
+            添加记录
+        </span>
+    </div>
+    <form action="#" method="POST">
+        <table>
+            {{ form.as_table }}
+        </table>
+        <p><input type="submit" value="Submit"></p>
+    </form>
+</div>
+{% endblock %}

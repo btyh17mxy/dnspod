@@ -1,0 +1,272 @@
+{% extends "base.html" %}
+{% block main %}
+<div class="RecordHeader" style="width: 770px;">
+    <div class="record-control">
+        <div class="header">
+            <div class="icon_home">
+            </div>
+            <h3>
+                shanshangzx.com
+                <a href="/Service/Main#/domain/shanshangzx.com" class="domain-grade-icon DP_Free_icon"
+                data-placement="above" rel="twipsy" title="点击立即升级至 DNSPod VIP 套餐">
+                </a>
+            </h3>
+            <div class="flash-message">
+            </div>
+            <ul class="tabs">
+                <li class="">
+                    <a data-route="/settingline" href="">
+                        自定义线路
+                    </a>
+                </li>
+                <li class="">
+                    <a data-route="/statistics" href="">
+                        解析量统计
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="/domain/info/{{ domain.id }}">
+                        域名设置
+                    </a>
+                </li>
+                <li class="">
+                    <a data-route="" href="/record/list/{{ domain.id }}">
+                        记录管理
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div id="main-content">
+    <div class="setting domain-setting">
+    <fieldset>
+        <legend>
+            基本资料
+        </legend>
+        <div class="settingrow">
+            <div class="intro">
+                <div class="title">
+                    别名
+                </div>
+                <div class="desc">
+                    <b>
+                        未设置
+                    </b>
+                    域名别名
+                </div>
+                <div class="edit">
+                    <a href="#">
+                        添加
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="settingrow">
+            <div class="intro">
+                <div class="title">
+                    备注
+                </div>
+                <div class="desc">
+                    {{ domain.remark }}
+                </div>
+                <div class="edit">
+                    <a href="#">
+                        修改
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="settingrow">
+            <div class="intro">
+                <div class="title">
+                    管理权限
+                </div>
+                <div class="desc">
+                    <b>
+                        {{ domain.owner }}
+                    </b>
+                    为管理员
+                </div>
+                <div class="edit">
+                    <a class="changeOwner noEdit" href="#">
+                        过户
+                    </a>
+                    <a href="#">
+                        添加
+                    </a>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>
+            功能设置
+        </legend>
+        <div class="settingrow">
+            <div class="intro">
+                <div class="title">
+                    搜索引擎推送
+                </div>
+                <div class="desc">
+                    <b>
+                        {% if domain.searchengine_push == "yes" %}
+                            已启用
+                        {% else %}
+                            未启用
+                        {% endif %}
+                    </b>
+                    搜索引擎推送
+                </div>
+                <div class="edit">
+                    <a href="#">
+                        修改
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="settingrow">
+            <div class="intro">
+                <div class="title">
+                    TTL默认值
+                </div>
+                <div class="desc">
+                    {{ domain.ttl }}秒
+                </div>
+                <div class="edit">
+                    <a href="#">
+                        修改
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="settingrow">
+            <div class="intro">
+                <div class="title">
+                    套餐
+                </div>
+                <div class="desc">
+                    <b>
+                        {% if domain.grade == "DP_Free" %}
+                            永久免费套餐
+                        {% else %}
+                            付费
+                        {% endif %}
+                    </b>
+                </div>
+                <div class="edit">
+                    <a href="/Service/Main#/domain/shanshangzx.com">
+                        升级套餐
+                    </a>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>
+            安全设置
+        </legend>
+        <div class="settingrow">
+            <div class="intro">
+                <div class="title">
+                    域名锁定
+                </div>
+                <div class="desc">
+                    域名
+                    <b>
+                        {% if lock.lock_status == "no"%}
+                        未锁定
+                        {% else %}
+                        已锁定
+                        {% endif %}
+                    </b>
+                </div>
+                <div class="edit">
+                    <a href="#">
+                        修改
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="settingrow">
+            <div class="intro">
+                <div class="title">
+                    解析状态
+                </div>
+                <div class="desc">
+                    <b>
+                        已启用
+                    </b>
+                    域名解析
+                </div>
+                <div class="edit">
+                    <a href="#">
+                        修改
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="settingrow">
+            <div class="intro">
+                <div class="title">
+                    操作日志
+                </div>
+                <div class="desc">
+                    查看域名操作日志
+                </div>
+                <div class="edit">
+                    <a href="#" class="get_log">
+                        查看
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="settingrow">
+            <div class="intro">
+                <div class="title">
+                    记录导出
+                </div>
+                <div class="desc">
+                    将所有记录导出为文本格式
+                </div>
+                <div class="edit">
+                    <a href="/Record/exportrecords/DID/15566157" target="_blank">
+                        导出
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="settingrow">
+            <div class="intro">
+                <div class="title">
+                    自助诊断
+                </div>
+                <div class="desc">
+                    检测域名健康情况
+                </div>
+                <div class="edit">
+                    <!-- <a href="#?domain=shanshangzx.com">挂马扫描</a> -->
+                    <a href="https://support.dnspod.cn/Tools/tools/?domain=shanshangzx.com"
+                    target="_blank">
+                        立即诊断
+                    </a>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>
+        </legend>
+        <div class="removerow">
+            <div class="intro">
+                <div class="edit">
+                    <a href="#">
+                        删除这个域名
+                    </a>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</div>
+</div>
+{% endblock %}
