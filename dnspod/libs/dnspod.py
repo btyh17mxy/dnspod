@@ -20,6 +20,11 @@ import requests
 import json
 import logging
 import unittest
+import csv
+import os
+import unicodecsv
+import cStringIO
+import codecs
 DEBUG_LEVEL = logging.DEBUG
 try:
     import colorizing_stream_handler
@@ -364,6 +369,7 @@ class Record(DNSPodBase):
             82 不能添加黑名单中的IP
         '''
 
+        ttl = int(ttl)
         if mx and not mx in range(1,21):
             logging.error(u'mx out of range')
             raise DNSPodError(u'mx out of range')
@@ -609,8 +615,116 @@ class DomainTest(unittest.TestCase):
         self.domain.list()
         self.domain.status('disable','btyh17mxy.com')
         self.domain.info('btyh17mxy.com')
+
+class UTF8Recoder:
+    """
+    Iterator that reads an encoded stream and reencodes the input to UTF-8
+    """
+    def __init__(self, f, encoding):
+        self.reader = codecs.getreader(encoding)(f)
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        return self.reader.next().encode("utf-8")
+class UnicodeReader:
+    """
+    A CSV reader which will iterate over lines in the CSV file "f",
+    which is encoded in the given encoding.
+    """
+
+    def __init__(self, f, dialect=csv.excel, encoding="utf-8", **kwds):
+        f = UTF8Recoder(f, encoding)
+        self.reader = csv.reader(f, dialect=dialect, **kwds)
+
+    def next(self):
+        row = self.reader.next()
+        return [unicode(s, "utf-8") for s in row]
+
+    def __iter__(self):
+        return self
+
+class UnicodeWriter:
+    """
+    A CSV writer which will write rows to CSV file "f",
+    which is encoded in the given encoding.
+    """
+
+    def __init__(self, f, dialect=csv.excel, encoding="utf-8", **kwds):
+        # Redirect output to a queue
+        self.queue = cStringIO.StringIO()
+        self.writer = csv.writer(self.queue, dialect=dialect, **kwds)
+        self.stream = f
+        self.encoder = codecs.getincrementalencoder(encoding)()
+
+    def writerow(self, row):
+        self.writer.writerow([s.encode("utf-8") for s in row])
+        # Fetch UTF-8 output from the queue ...
+        data = self.queue.getvalue()
+        data = data.decode("utf-8")
+        # ... and reencode it into the target encoding
+        data = self.encoder.encode(data)
+        # write to the target stream
+        self.stream.write(data)
+        # empty queue
+        self.queue.truncate(0)
+
+    def writerows(self, rows):
+        for row in rows:
+            self.writerow(row)
+
+class Utils(object):
+    
+    def __init__(self):
+        pass
+
+    def export_records(self, record, domain_id, f):
+        records = record.list(domain_id = domain_id)['records']
+        csvwriter = UnicodeWriter(f, encoding='utf-8')
+
+        write_header = True
+        for record in records:
+            if write_header:
+                headers = record.keys()
+                try:
+                    headers.remove('hold')
+                except Exception:
+                    pass
+                csvwriter.writerow(headers)
+
+            record.pop(u'hold','')
+            values = record.values()
+            csvwriter.writerow(values)
+            write_header = False
+
+    def import_records(self, record, domain_id, f):
+        #f = open(path,'r')
+        csvreader = UnicodeReader(f, encoding='utf-8')
+        
+        headers = csvreader.next()[0].split(';')
+        print headers
+        records_data = []
+        for line in csvreader:
+            records_data.append(line[0].split(';'))
+        
+        for data in records_data:
+            i = 0
+            item = {}
+            while i < len(headers):
+                item[headers[i]]=data[i]
+                i+=1
+                print i
+            item['domain_id'] = domain_id
+            print item
+            record.create(**item)
         
         
 if __name__ == '__main__':
     logging.info('test')
-    unittest.main()
+    #unittest.main()
+    record = Record('btyh17mxy@gmail.com','mushcode')
+    #record.list('15566157')
+    utils = Utils()
+    #utils.export_records_csv(record, '15566157', 'records.csv')
+    utils.import_records(record, '15566157', 'read.csv')

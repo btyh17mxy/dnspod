@@ -6,6 +6,7 @@ from django.shortcuts import render_to_response
 from django import forms
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 from libs.dnspod import *
 
 domain = Domain('btyh17mxy@gmail.com','mushcode')
@@ -70,9 +71,12 @@ def record_add(request, domain_id):
             return HttpResponseRedirect('/record/add/%s'%domain_id)
 
 
-def record_remove(requests, domain_id, record_id):
+def record_remove(request, domain_id, record_id):
     record.remove(domain_id = domain_id, record_id = record_id)
     return HttpResponseRedirect('/record/list/%s'%domain_id)
+
+class UploadFileForm(forms.Form):
+    file  = forms.FileField()
 
 def domain_info(request, domain_id):
     data = domain.info(domain_id = domain_id)
@@ -81,4 +85,24 @@ def domain_info(request, domain_id):
     except DNSPodError,e:
         data.update({'lock':{'lock_status':'no'}})
 
+    data['form'] = UploadFileForm()
     return render_to_response('domain_info.html', data)
+
+def record_export(request, domain_id):
+    utils = Utils()
+    response = HttpResponse()
+    utils.export_records(record, domain_id, response)
+    response['Content-Disposition'] = 'attachment; filename="%s.csv"'%domain_id
+    response.__setitem__('content-type', 'text/csv')
+    return response
+
+@csrf_exempt
+def record_import(request, domain_id):
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            utils = Utils()
+            utils.import_records(record, domain_id, request.FILES['file'])
+            return HttpResponseRedirect('/record/list/%s'%domain_id)
+        else :
+            return HttpResponse('import fail')

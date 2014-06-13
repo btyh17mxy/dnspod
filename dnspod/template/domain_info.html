@@ -230,8 +230,42 @@
                     将所有记录导出为文本格式
                 </div>
                 <div class="edit">
-                    <a href="/Record/exportrecords/DID/15566157" target="_blank">
+                    <a href="/record/exportrecords/{{ domain.id }}" target="_blank">
                         导出
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="settingrow">
+            <div class="intro">
+                <div class="title">
+                    记录导入
+                </div>
+                <div class="desc">
+                    导入文本格式的记录列表
+                </div>
+                <div class="edit">
+                    <a href="/record/importrecords/{{ domain.id }}" target="_blank">
+                        导入
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="settingrow">
+<form enctype="multipart/form-data" action="/record/importrecords/{{ domain.id }}" method="post">
+{{ form }}
+<input type="submit" value="上传文件">
+</form>
+            <div class="intro">
+                <div class="title">
+                    记录导入
+                </div>
+                <div class="desc">
+                    导入文本格式的记录列表
+                </div>
+                <div class="edit">
+                    <a href="/record/importrecords/{{ domain.id }}" target="_blank">
+                        导入
                     </a>
                 </div>
             </div>

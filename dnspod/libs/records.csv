@@ -1,0 +1,4 @@
+status,monitor_status,remark,name,enabled,value,mx,ttl,updated_on,line,use_aqb,type,id
+enabled,,,@,1,f1g1ns1.dnspod.net.,0,600,2014-06-06 16:11:57,默认,no,NS,65160299
+enabled,,,@,1,f1g1ns2.dnspod.net.,0,600,2014-06-06 16:11:57,默认,no,NS,65160300
+enabled,,,＠,1,115.28.58.147,0,600,2014-06-12 16:22:55,默认,no,A,65691127

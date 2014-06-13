@@ -13,6 +13,8 @@ urlpatterns = patterns('',
      url(r'^domain/remove/(\d*)', 'index.views.domain_remove'),
      url(r'^record/add/(\d*)', 'index.views.record_add'),
      url(r'^record/remove/(\d*)/(\d*)', 'index.views.record_remove'),
+     url(r'^record/exportrecords/(\d*)', 'index.views.record_export'),
+     url(r'^record/importrecords/(\d*)', 'index.views.record_import'),
     # url(r'^dnspod/', include('dnspod.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
