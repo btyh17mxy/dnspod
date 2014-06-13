@@ -22,7 +22,6 @@ import logging
 import unittest
 import csv
 import os
-import unicodecsv
 import cStringIO
 import codecs
 DEBUG_LEVEL = logging.DEBUG
